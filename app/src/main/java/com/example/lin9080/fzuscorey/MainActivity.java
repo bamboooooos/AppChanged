@@ -29,8 +29,21 @@ public class MainActivity extends AppCompatActivity {
         LayoutInit();
         //以上为界面的初始化
         LitePal.getDatabase();//数据库初始化
-        TestInit();//测试方法
-        testinit();
+        ((Button)findViewById(R.id.testinit)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                TestInit();//测试方法
+                testinit();
+                students.addAll(LitePal.findAll(Student.class));
+            }
+        });
+        ((Button)findViewById(R.id.testclear)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                LitePal.deleteAll(Student.class);
+                students.addAll(LitePal.findAll(Student.class));
+            }
+        });
         students.addAll(LitePal.findAll(Student.class));//获取数据库中所有学生对象
 
     }
@@ -95,31 +108,34 @@ public class MainActivity extends AppCompatActivity {
         }
     }
     private void testinit(){
-        Student student1 = new Student();
-        student1.setTerm(1);
-        student1.setStuid("031702416");
-        student1.setPassword("mm36550332");
-        student1.setName_1("大物");
-        student1.setScore_1(getRan());
-        student1.setName_2("高数");
-        student1.setScore_2(getRan());
-        student1.setName_3("离散");
-        student1.setScore_3(getRan());
-        student1.setName_4("算法");
-        student1.setScore_4(getRan());
-        student1.setName_5("毛概");
-        student1.setScore_5(getRan());
-        student1.setName_6("英语");
-        student1.setScore_6(getRan());
-        student1.setRank(40);
-        student1.setPercentage("40%");
-        student1.setAverage(70);
-        student1.save();
+        for (int i=1;i<5;i++) {
+            Student student1 = new Student();
+            student1.setTerm(i);
+            student1.setStuid("031702416");
+            student1.setPassword("mm36550332");
+            student1.setName_1("大物");
+            student1.setScore_1(getRan());
+            student1.setName_2("高数");
+            student1.setScore_2(getRan());
+            student1.setName_3("离散");
+            student1.setScore_3(getRan());
+            student1.setName_4("算法");
+            student1.setScore_4(getRan());
+            student1.setName_5("毛概");
+            student1.setScore_5(getRan());
+            student1.setName_6("英语");
+            student1.setScore_6(getRan());
+            student1.setRank(40);
+            student1.setPercentage("40%");
+            student1.setAverage(70);
+            student1.save();
+        }
     }
     private void TestInit(){
+        for(int term=1;term<5;term++)
         for(int i=0;i<20;i++) {
             Student student=new Student();
-            student.setTerm(1);
+            student.setTerm(term);
             student.setStuid(getRan()+"");
             student.setPassword(getRan()+"");
             student.setName_1("大物");

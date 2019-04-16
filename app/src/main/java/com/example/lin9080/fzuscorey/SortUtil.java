@@ -179,4 +179,9 @@ public class SortUtil {
         BigDecimal b = new BigDecimal((getRank(Stuid,i)/(double)sortedStudents.size())*100);
         return b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue()+"%";
     }
+
+    public double getDoublePrank(String Stuid,int i){
+        BigDecimal b = new BigDecimal((getRank(Stuid,i)/(double)sortedStudents.size())*100);
+        return b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+    }
 }
