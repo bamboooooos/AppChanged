@@ -79,6 +79,8 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(MainActivity.this,"账号不存在或密码错误，登录失败",Toast.LENGTH_SHORT).show();
                     }
                 }else{
+                    Intent intent1 = new Intent(MainActivity.this,MonActivity.class);
+                    startActivity(intent1  );
                     //TODO 进入班长界面
                 }
             }
@@ -111,8 +113,8 @@ public class MainActivity extends AppCompatActivity {
         for (int i=1;i<5;i++) {
             Student student1 = new Student();
             student1.setTerm(i);
-            student1.setStuid("031702416");
-            student1.setPassword("mm36550332");
+            student1.setStuid("");
+            student1.setPassword("");
             student1.setName_1("大物");
             student1.setScore_1(getRan());
             student1.setName_2("高数");

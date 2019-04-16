@@ -77,7 +77,7 @@ public class BarChartUtil {
         dataSet.setValueTextColor(color);
     }
 
-    public static void showBarChart(BarChart barChart,ArrayList<ChartBean> chartBeans, String name, int color) {//单个数据
+    public static void showBarChart(BarChart barChart,ArrayList<ChartBean> chartBeans, String label, int color) {//单个数据
         //chartBeans为表格数据来源，包括值和名称,name为图例,color为颜色
         ArrayList<BarEntry> entries = new ArrayList<>();
         for (int i = 0; i < chartBeans.size(); i++) {
@@ -85,63 +85,24 @@ public class BarChartUtil {
             entries.add(barEntry);
         }
         // 每一个BarDataSet代表一类柱状图
-        BarDataSet barDataSet = new BarDataSet(entries, name);
+        BarDataSet barDataSet = new BarDataSet(entries, label);
         initBarDataSet(barDataSet, color);
         BarData data = new BarData(barDataSet);
         barChart.setData(data);
     }
-    public static void showBarChart(BarChart barChart,ArrayList<ChartBean> chartBeans1,
-                                    ArrayList<ChartBean> chartBeans2,
-                                    ArrayList<ChartBean> chartBeans3,
-                                    ArrayList<ChartBean> chartBeans4,
-                                    ArrayList<ChartBean> chartBeans5) {//多个数据
+    public static void showBarChart(BarChart barChart,ArrayList<ArrayList<ChartBean>> chartBeansList,int[] color,ArrayList<String> labels) {//多个数据
         //chartBeans为表格数据来源，包括值和名称
         ArrayList<IBarDataSet> dataSets = new ArrayList<>();
-        ArrayList<BarEntry> entries1 = new ArrayList<>();
-        for (int i = 0; i < chartBeans1.size(); i++) {
-            BarEntry barEntry = new BarEntry(i,chartBeans1.get(i).getValue());//每个柱子
-            entries1.add(barEntry);
+        for(int i=0;i<chartBeansList.size();i++){
+            ArrayList<BarEntry> entries=new ArrayList<>();
+            ArrayList<ChartBean> chartBeans=chartBeansList.get(i);
+            for(int j=0;j<chartBeans.size();j++){
+                entries.add(new BarEntry(j,chartBeans.get(j).getValue()));
+            }
+            BarDataSet dataSet=new BarDataSet(entries,labels.get(i));
+            initBarDataSet(dataSet,color[i]);
+            dataSets.add(dataSet);
         }
-        // 每一个BarDataSet代表一类柱状图
-        BarDataSet barDataSet1 = new BarDataSet(entries1, "优秀率");
-        initBarDataSet(barDataSet1, Color.LTGRAY);
-        dataSets.add(barDataSet1);
-        ArrayList<BarEntry> entries2 = new ArrayList<>();
-        for (int i = 0; i < chartBeans2.size(); i++) {
-            BarEntry barEntry = new BarEntry(i,chartBeans2.get(i).getValue());//每个柱子
-            entries2.add(barEntry);
-        }
-        // 每一个BarDataSet代表一类柱状图
-        BarDataSet barDataSet2 = new BarDataSet(entries2, "不及格率");
-        initBarDataSet(barDataSet2, Color.YELLOW);
-        dataSets.add(barDataSet2);
-        ArrayList<BarEntry> entries3 = new ArrayList<>();
-        for (int i = 0; i < chartBeans3.size(); i++) {
-            BarEntry barEntry = new BarEntry(i,chartBeans3.get(i).getValue());//每个柱子
-            entries3.add(barEntry);
-        }
-        // 每一个BarDataSet代表一类柱状图
-        BarDataSet barDataSet3 = new BarDataSet(entries3, "平均分");
-        initBarDataSet(barDataSet3, Color.DKGRAY);
-        dataSets.add(barDataSet3);
-        ArrayList<BarEntry> entries4 = new ArrayList<>();
-        for (int i = 0; i < chartBeans4.size(); i++) {
-            BarEntry barEntry = new BarEntry(i,chartBeans4.get(i).getValue());//每个柱子
-            entries4.add(barEntry);
-        }
-        // 每一个BarDataSet代表一类柱状图
-        BarDataSet barDataSet4 = new BarDataSet(entries4, "最高分");
-        initBarDataSet(barDataSet4, Color.CYAN);
-        dataSets.add(barDataSet4);
-        ArrayList<BarEntry> entries5 = new ArrayList<>();
-        for (int i = 0; i < chartBeans5.size(); i++) {
-            BarEntry barEntry = new BarEntry(i,chartBeans5.get(i).getValue());//每个柱子
-            entries5.add(barEntry);
-        }
-        // 每一个BarDataSet代表一类柱状图
-        BarDataSet barDataSet5 = new BarDataSet(entries5, "最低分");
-        initBarDataSet(barDataSet5, Color.GREEN);
-        dataSets.add(barDataSet5);
         BarData data = new BarData(dataSets);
 
         int barAmount = 6; //需要显示柱状图的类别 数量
