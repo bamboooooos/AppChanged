@@ -110,9 +110,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
     private void testinit(){
-        for (int i=1;i<5;i++) {
+        for(int term=1;term<5;term++){
             Student student1 = new Student();
-            student1.setTerm(i);
+            student1.setTerm(term);
             student1.setStuid("");
             student1.setPassword("");
             student1.setName_1("大物");

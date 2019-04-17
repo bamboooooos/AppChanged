@@ -8,9 +8,6 @@ import java.util.ArrayList;
 public class SortUtil {
     private ArrayList<Student> students;
     private ArrayList<Student> sortedStudents=new ArrayList<>();
-    public SortUtil(){
-
-    }
     public SortUtil(ArrayList<Student> students,int term){
         this.students=students;
         for(int i=0;i<students.size();i++){
@@ -183,5 +180,25 @@ public class SortUtil {
     public double getDoublePrank(String Stuid,int i){
         BigDecimal b = new BigDecimal((getRank(Stuid,i)/(double)sortedStudents.size())*100);
         return b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+    }
+    public int[] getGrade(int sub){//获取1-6个学科分别的等级
+        int[] grades=new int[4];
+        for(int i=0;i<sortedStudents.size();i++){
+            int score=StudentUtil.getSubjectScore(sortedStudents.get(i),sub);
+            if(score<60){
+                grades[0]++;
+            }else if(score<70){
+                grades[1]++;
+            }else if(score<85){
+                grades[2]++;
+            }else
+                grades[3]++;
+        }
+        for(int i=0;i<4;i++){
+            double number=((double)grades[i]/(double)sortedStudents.size()*100);
+            BigDecimal bd=new BigDecimal(number).setScale(0, BigDecimal.ROUND_HALF_UP);
+            grades[i]=Integer.parseInt(bd.toString());
+        }
+        return grades;
     }
 }

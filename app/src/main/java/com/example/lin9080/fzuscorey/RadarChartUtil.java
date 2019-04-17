@@ -19,11 +19,11 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import java.util.ArrayList;
 
 public class RadarChartUtil {
-    public static void initRadarChartUtil(RadarChart chart, ArrayList<ChartBean> chartBeans,int SetColor,int FillColor){
+    public static void initRadarChartUtil(RadarChart chart, ArrayList<ChartBean> chartBeans,int SetColor,int FillColor,String descrip){
         XAxis xAxis;
         YAxis yAxis;
         Description description=chart.getDescription();
-        description.setText("个人优劣势学科分析");
+        description.setText(descrip);
         description.setTextSize(30);
         description.setTextColor(Color.BLUE);
         description.setEnabled(true);//描述显示
@@ -76,7 +76,7 @@ public class RadarChartUtil {
         set.setDrawHighlightCircleEnabled(true);
         set.setDrawHighlightIndicators(false);
     }
-    private static void setData(RadarChart chart,ArrayList<ChartBean> chartBeans,int SetColor,int FillColor) {//设置数据
+    public static void setData(RadarChart chart,ArrayList<ChartBean> chartBeans,int SetColor,int FillColor) {//设置数据
         float mult = 100;
         float min = 20;
 

@@ -33,6 +33,7 @@ public class curve_fragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_curve_fragment, container, false);
+        students.clear();
         students.addAll((ArrayList<Student>) LitePal.findAll(Student.class));
         StuActivity stuActivity = (StuActivity) getActivity();
         acc = stuActivity.getAcco();

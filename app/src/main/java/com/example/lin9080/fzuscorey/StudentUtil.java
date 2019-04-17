@@ -29,4 +29,30 @@ public class StudentUtil {
         }
         return result;
     }
+
+    public static String getSubjectName(Student student,int i){
+        String result="";
+        switch (i){
+            case 1:
+                result=student.getName_1();
+                break;
+            case 2:
+                result=student.getName_2();
+                break;
+            case 3:
+                result=student.getName_3();
+                break;
+            case 4:
+                result=student.getName_4();
+                break;
+            case 5:
+                result=student.getName_5();
+                break;
+            case 6:
+                result=student.getName_6();
+                break;
+            default:
+        }
+        return result;
+    }
 }

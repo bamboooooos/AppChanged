@@ -28,17 +28,19 @@ public class general_fragment1 extends Fragment {
     private int[] colors=new int[2];
     private int[] circleColors=new int[2];
     private ArrayList<String> labels=new ArrayList<>();
+    private BarChart barChart;
+    private BarChart barChart2;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_general1, container, false);
+        students.clear();
         students.addAll((ArrayList<Student>) LitePal.findAll(Student.class));
         MonActivity monActivity = (MonActivity) getActivity();
-        BarChart barChart=(BarChart)view.findViewById(R.id.genera1BarChart);
+        barChart =(BarChart)view.findViewById(R.id.genera1BarChart);
+        barChart2=(BarChart)view.findViewById(R.id.genera1BarChart2);
         term=monActivity.getTerm();
         initTerm(term,sub);
-        BarChartUtil.initBarChart(barChart,chartBeans);
-        BarChartUtil.showBarChart(barChart,chartBeans,"成绩/占比",Color.BLUE);
         return view;
     }
     private void initTerm(int term,int sub){
@@ -48,6 +50,11 @@ public class general_fragment1 extends Fragment {
             }
         }
         getDataNeed(sub);
+        BarChartUtil.initBarChart(barChart,chartBeans);
+        BarChartUtil.showBarChart(barChart,chartBeans,"成绩/占比",Color.BLUE);
+        getClassGrade(term,sub);
+        BarChartUtil.initBarChart(barChart2,chartBeans);
+        BarChartUtil.showBarChart(barChart2,chartBeans,"人数占比",Color.CYAN);
     }
     private void getDataNeed(int sub){
         chartBeans.clear();
@@ -76,5 +83,15 @@ public class general_fragment1 extends Fragment {
         chartBeans.add(new ChartBean(result/(mstudents.size()),"平均分"));
         chartBeans.add(new ChartBean(high,"最高分"));
         chartBeans.add(new ChartBean(low,"最低分"));
+    }
+
+    private void getClassGrade(int term,int sub){
+        SortUtil sortUtil=new SortUtil(students,term);
+        chartBeans.clear();
+        int[] grades=sortUtil.getGrade(sub);
+        chartBeans.add(new ChartBean(grades[0],"不及格"));
+        chartBeans.add(new ChartBean(grades[1],"及格"));
+        chartBeans.add(new ChartBean(grades[2],"良好"));
+        chartBeans.add(new ChartBean(grades[3],"优秀"));
     }
 }
