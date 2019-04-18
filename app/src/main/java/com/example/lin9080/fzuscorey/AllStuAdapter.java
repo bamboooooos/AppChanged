@@ -48,6 +48,7 @@ public class AllStuAdapter extends RecyclerView.Adapter<AllStuAdapter.ViewHolder
         int score=StudentUtil.getSubjectScore(student,sub);
         holder.text4.setText(score+"");
         String grade="";
+        if(sub==0) score=score/6;
         if(score<60){
             grade="不及格";
         }else if(score<70){

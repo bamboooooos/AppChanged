@@ -115,17 +115,17 @@ public class MainActivity extends AppCompatActivity {
             student1.setTerm(term);
             student1.setStuid("");
             student1.setPassword("");
-            student1.setName_1("大物");
+            student1.setName_1("大物"+term);
             student1.setScore_1(getRan());
-            student1.setName_2("高数");
+            student1.setName_2("高数"+term);
             student1.setScore_2(getRan());
-            student1.setName_3("离散");
+            student1.setName_3("离散"+term);
             student1.setScore_3(getRan());
-            student1.setName_4("算法");
+            student1.setName_4("算法"+term);
             student1.setScore_4(getRan());
-            student1.setName_5("毛概");
+            student1.setName_5("毛概"+term);
             student1.setScore_5(getRan());
-            student1.setName_6("英语");
+            student1.setName_6("英语"+term);
             student1.setScore_6(getRan());
             student1.setRank(40);
             student1.setPercentage("40%");
@@ -140,17 +140,17 @@ public class MainActivity extends AppCompatActivity {
             student.setTerm(term);
             student.setStuid(getRan()+"");
             student.setPassword(getRan()+"");
-            student.setName_1("大物");
+            student.setName_1("大物"+term);
             student.setScore_1(getRan());
-            student.setName_2("高数");
+            student.setName_2("高数"+term);
             student.setScore_2(getRan());
-            student.setName_3("离散");
+            student.setName_3("离散"+term);
             student.setScore_3(getRan());
-            student.setName_4("算法");
+            student.setName_4("算法"+term);
             student.setScore_4(getRan());
-            student.setName_5("毛概");
+            student.setName_5("毛概"+term);
             student.setScore_5(getRan());
-            student.setName_6("英语");
+            student.setName_6("英语"+term);
             student.setScore_6(getRan());
             student.setRank(40);
             student.setPercentage("40%");
@@ -159,6 +159,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
     private int getRan(){
-        return (int)(Math.random()*100+1);
+        return (int)(Math.random()*60+41);
     }
 }

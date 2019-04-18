@@ -173,23 +173,29 @@ public class SortUtil {
         return student.getScore_1()+student.getScore_2()+student.getScore_3()+student.getScore_4()+student.getScore_5()+student.getScore_6();
     }
     public String getPrank(String Stuid,int i){
-        BigDecimal b = new BigDecimal((getRank(Stuid,i)/(double)sortedStudents.size())*100);
+        BigDecimal b = new BigDecimal( (getRank(Stuid,i)/(double)sortedStudents.size())*100);
         return b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue()+"%";
     }
 
     public double getDoublePrank(String Stuid,int i){
-        BigDecimal b = new BigDecimal((getRank(Stuid,i)/(double)sortedStudents.size())*100);
+        BigDecimal b = new BigDecimal((1-(getRank(Stuid,i)/(double)sortedStudents.size()))*100);
         return b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
     }
     public int[] getGrade(int sub){//获取1-6个学科分别的等级
         int[] grades=new int[4];
         for(int i=0;i<sortedStudents.size();i++){
             int score=StudentUtil.getSubjectScore(sortedStudents.get(i),sub);
-            if(score<60){
+            int[] spicalScore={60,70,85};
+            if(sub==0){
+                spicalScore[0]=360;
+                spicalScore[1]=420;
+                spicalScore[2]=510;
+            }
+            if(score<spicalScore[0]){
                 grades[0]++;
-            }else if(score<70){
+            }else if(score<spicalScore[1]){
                 grades[1]++;
-            }else if(score<85){
+            }else if(score<spicalScore[2]){
                 grades[2]++;
             }else
                 grades[3]++;

@@ -7,6 +7,9 @@ public class StudentUtil {
     public static int getSubjectScore(Student student,int i){
         int result=0;
         switch (i){
+            case 0:
+                result=getAllScoreOne(student);
+                break;
             case 1:
                 result=student.getScore_1();
                 break;
