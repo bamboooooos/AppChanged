@@ -1,6 +1,7 @@
 package com.example.lin9080.fzuscorey;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
@@ -12,12 +13,19 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+
 import org.litepal.LitePal;
 import org.litepal.crud.DataSupport;
 
 import java.util.ArrayList;
 
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+
 public class MainActivity extends AppCompatActivity {
+    private String[] strings = {"b1","b2","a1","a2"};
     private ArrayList<Student> students=new ArrayList<>();
     private int flag=0;//0为学生，1为班长
     private static Button login,StuLog,MonLog;
@@ -26,6 +34,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //TODO 在这里发送请求获取数据
+        //for(int i = 1;i <= 6;i++)
+        //    for(int j = 1;j <= 50;j++)
+        //        for(int k = 0;k <= 3;k++) sendRequestWithHttpURLConnection(i,j,strings[k]);
+        //sendRequestWithHttpURLConnection();
         LayoutInit();
         //以上为界面的初始化
         LitePal.getDatabase();//数据库初始化
@@ -45,7 +58,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         students.addAll(LitePal.findAll(Student.class));//获取数据库中所有学生对象
-
     }
     private void LayoutInit(){
         login=(Button)findViewById(R.id.login);
@@ -79,9 +91,11 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(MainActivity.this,"账号不存在或密码错误，登录失败",Toast.LENGTH_SHORT).show();
                     }
                 }else{
-                    Intent intent1 = new Intent(MainActivity.this,MonActivity.class);
-                    startActivity(intent1  );
-                    //TODO 进入班长界面
+                    SharedPreferences preferences=getPreferences(MODE_PRIVATE);
+                    if((acc.equals(preferences.getString("mon_id","wrong")))&&(pas.equals(preferences.getString("mon_pas","wrong")))) {
+                        Intent intent1 = new Intent(MainActivity.this, MonActivity.class);
+                        startActivity(intent1);
+                    }
                 }
             }
         });
@@ -160,5 +174,55 @@ public class MainActivity extends AppCompatActivity {
     }
     private int getRan(){
         return (int)(Math.random()*60+41);
+    }
+    private void sendRequestWithHttpURLConnection(int b,int id,String term) {
+        final String url = "http://192.168.43.98:5000/api/users/"+"031799"+b+id+"/"+term;
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try{
+                    OkHttpClient client = new OkHttpClient();
+                    Request request = new Request.Builder().url(url).build();
+                    Response response = client.newCall(request).execute();
+                    String data = response.body().string();
+                    getJson(data);
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+    }
+    private void sendRequestWithHttpURLConnection() {
+        final String url = "http://192.168.43.98:5000/api/monitor";
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try{
+                    OkHttpClient client = new OkHttpClient();
+                    Request request = new Request.Builder().url(url).build();
+                    Response response = client.newCall(request).execute();
+                    String data = response.body().string();
+                    setMonitor(data);
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+    }
+
+    private void getJson(final String data){
+        Gson gson = new Gson();
+        Student student = gson.fromJson(data,Student.class);
+        student.save();
+    }
+
+    private void setMonitor(String data){
+        Gson gson = new Gson();
+        Monitor monitor = gson.fromJson(data,Monitor.class);
+        SharedPreferences preferences=getPreferences(MODE_PRIVATE);
+        SharedPreferences.Editor editor=preferences.edit();
+        editor.putString("mon_id",monitor.getMon_id());
+        editor.putString("mon_pas",monitor.getMon_pas());
+        editor.apply();
     }
 }
